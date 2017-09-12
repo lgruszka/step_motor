@@ -5,7 +5,17 @@ from __builtin__ import True
 
 import sys
 import os
+import RPi.GPIO as GPIO
 import time
+import datetime
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+
+#set 21 as output
+GPIO.setup(21,GPIO.OUT, initial=GPIO.LOW)
+#set 4 as input and pull voltage down
+GPIO.setup(4,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 from mainwindow import Ui_MainWindow
 
@@ -41,6 +51,7 @@ class CMain(QtGui.QMainWindow):
                 self.counter2 = 0
                 self.cycles = 0
                 self.steps_one_cycle = 1.5
+                self.microstep = 4
                 self.przyrost = 0.1
                 self.ui.lcdSteps.display(self.steps_one_cycle)
                 
@@ -56,29 +67,29 @@ class CMain(QtGui.QMainWindow):
                 
         #przelic obroty silnika na pojedyncze kroki 
         def rot_to_steps(self, turns):
-                steps = 200.*turns
+                steps = 200.*self.microstep*turns
                 return steps
                 
         #zakrec silnik
         def move_motor(self, steps):
                 print "obracam motor o {}".format(steps)
-                time.sleep(2)
+                print datetime.datetime.now()
+                for i in range(int(steps)):
+                    GPIO.output(21,GPIO.HIGH)
+                    time.sleep(0.001)
+                    GPIO.output(21,GPIO.LOW)
+                    time.sleep(0.001)
                 print "koniec obrotu"
+                #do usuniecia - zastapic przez sygnal maszyny
+                self.cycles = self.cycles + 1
         
         def checkInput(self):
-                self.counter = self.counter + 1 
-                #if rozkaz_podaj_barwnik == 1:
-                if self.counter == 1000:
+                print GPIO.input(4)
+                if GPIO.input(4):
                         self.move_motor(self.rot_to_steps(float(self.ui.lcdSteps.value()))) 
-                        self.counter = 0
                         
         def checkCycle(self):
-                self.counter2 = self.counter2 + 1
-                if self.counter2 == 1000:
-                        print "counter2 {}".format(self.counter2)
-                        self.cycles = self.cycles + 1
                         self.ui.lcdCounter.display(self.cycles)
-                        self.counter2 = 0
                 
         def resetCounterBtn_Clicked(self):
                 self.cycles = 0
@@ -87,7 +98,7 @@ class CMain(QtGui.QMainWindow):
         def startBtn_Clicked(self):
                 if self.ui.startBtn.isChecked() == True:
                         print "wcisnalem"
-                        self.check_cycle.start(1)
+                        self.check_cycle.start(10)
                         self.check_input.start(1)
                         self.ui.startBtn.setStyleSheet(_fromUtf8("background: red; color: white"))
                         self.ui.startBtn.setText("stop")
@@ -123,4 +134,5 @@ if __name__=='__main__':
         window.show()
         print "1"
         sys.exit(app.exec_())
+        GPIO.cleanup()
         print "2"
