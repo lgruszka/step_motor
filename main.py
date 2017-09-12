@@ -13,10 +13,21 @@ import datetime
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
+#21 to wyjscie do sterownika silnika
+#26 wystawiam na zawsze wysoki jako symulator sygnalu z maszyny
+#20 ustawiam jako wejscie do odczytu sygnalu z maszyny
+
+
+#   ] [
+#   ] [
+#  26 20
+#  G  21
+
 #set 21 as output
 GPIO.setup(21,GPIO.OUT, initial=GPIO.LOW)
-#set 4 as input and pull voltage down
-GPIO.setup(4,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(26,GPIO.OUT, initial=GPIO.HIGH)
+#set 20 as input and pull voltage down
+GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 from mainwindow import Ui_MainWindow
 
@@ -89,7 +100,7 @@ class CMain(QtGui.QMainWindow):
                 self.cycles = self.cycles + 1
         
         def checkInput(self):
-                if GPIO.input(4):
+                if GPIO.input(20):
                         if self.enable is True:
                                 #self.enable = False
                                 #run_motor_thread_lock.acquire()
