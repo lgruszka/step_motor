@@ -58,7 +58,7 @@
       <x>300</x>
       <y>130</y>
       <width>161</width>
-      <height>121</height>
+      <height>111</height>
      </rect>
     </property>
     <property name="font">
@@ -86,7 +86,7 @@
      <bool>false</bool>
     </property>
     <property name="value" stdset="0">
-     <double>6.100000000000000</double>
+     <double>6.000000000000000</double>
     </property>
     <property name="intValue" stdset="0">
      <number>6</number>
@@ -108,7 +108,7 @@
       <x>20</x>
       <y>130</y>
       <width>161</width>
-      <height>121</height>
+      <height>111</height>
      </rect>
     </property>
     <property name="font">
@@ -125,6 +125,34 @@ color: white</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="exitBtn">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>250</y>
+      <width>81</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: red;
+color: white;
+</string>
+    </property>
+    <property name="text">
+     <string>Zamknij</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>250</y>
+      <width>241</width>
+      <height>31</height>
+     </rect>
     </property>
    </widget>
   </widget>

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'mainwindow.ui'
+# Form implementation generated from reading ui file './mainwindow.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -39,7 +39,7 @@ class Ui_MainWindow(object):
         self.downBtn.setIconSize(QtCore.QSize(81, 81))
         self.downBtn.setObjectName(_fromUtf8("downBtn"))
         self.resetCounterBtn = QtGui.QPushButton(self.centralwidget)
-        self.resetCounterBtn.setGeometry(QtCore.QRect(300, 130, 161, 121))
+        self.resetCounterBtn.setGeometry(QtCore.QRect(300, 130, 161, 111))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.resetCounterBtn.setFont(font)
@@ -48,14 +48,14 @@ class Ui_MainWindow(object):
         self.lcdSteps = QtGui.QLCDNumber(self.centralwidget)
         self.lcdSteps.setGeometry(QtCore.QRect(20, 30, 161, 81))
         self.lcdSteps.setSmallDecimalPoint(False)
-        self.lcdSteps.setProperty("value", 6.1)
+        self.lcdSteps.setProperty("value", 6.0)
         self.lcdSteps.setProperty("intValue", 6)
         self.lcdSteps.setObjectName(_fromUtf8("lcdSteps"))
         self.lcdCounter = QtGui.QLCDNumber(self.centralwidget)
         self.lcdCounter.setGeometry(QtCore.QRect(300, 30, 161, 81))
         self.lcdCounter.setObjectName(_fromUtf8("lcdCounter"))
         self.startBtn = QtGui.QPushButton(self.centralwidget)
-        self.startBtn.setGeometry(QtCore.QRect(20, 130, 161, 121))
+        self.startBtn.setGeometry(QtCore.QRect(20, 130, 161, 111))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.startBtn.setFont(font)
@@ -63,6 +63,15 @@ class Ui_MainWindow(object):
 "color: white"))
         self.startBtn.setCheckable(True)
         self.startBtn.setObjectName(_fromUtf8("startBtn"))
+        self.exitBtn = QtGui.QPushButton(self.centralwidget)
+        self.exitBtn.setGeometry(QtCore.QRect(380, 250, 81, 41))
+        self.exitBtn.setStyleSheet(_fromUtf8("background: red;\n"
+"color: white;\n"
+""))
+        self.exitBtn.setObjectName(_fromUtf8("exitBtn"))
+        self.lineEdit = QtGui.QLineEdit(self.centralwidget)
+        self.lineEdit.setGeometry(QtCore.QRect(20, 250, 241, 31))
+        self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 480, 19))
@@ -79,6 +88,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
         self.resetCounterBtn.setText(_translate("MainWindow", "reset", None))
         self.startBtn.setText(_translate("MainWindow", "start", None))
+        self.exitBtn.setText(_translate("MainWindow", "Zamknij", None))
 
 
 if __name__ == "__main__":

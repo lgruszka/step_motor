@@ -36,6 +36,8 @@ class CMain(QtGui.QMainWindow):
                 
                 self.ui.startBtn.clicked.connect(self.startBtn_Clicked)
                 self.ui.resetCounterBtn.clicked.connect(self.resetCounterBtn_Clicked)
+                self.ui.exitBtn.clicked.connect(self.exitBtn_Clicked)
+                
                 self.ui.upBtn.clicked.connect(self.upBtn_Clicked)
                 self.ui.downBtn.clicked.connect(self.downBtn_Clicked)
                 
@@ -122,7 +124,9 @@ class CMain(QtGui.QMainWindow):
                 self.steps_one_cycle = self.steps_one_cycle - self.przyrost
                 self.ui.lcdSteps.display(self.steps_one_cycle)
         
-                        
+        def exitBtn_Clicked(self):
+                self.close()
+                #os.system("shutdown now -h")                       
                 
                 
                 
