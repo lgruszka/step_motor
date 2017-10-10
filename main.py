@@ -8,6 +8,7 @@ import os
 import RPi.GPIO as GPIO
 import time
 import datetime
+import threading
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -27,6 +28,7 @@ except AttributeError:
     _fromUtf8 = lambda s: s
 
 pathname = os.path.dirname(sys.argv[0])
+run_motor_thread_lock = threading.Lock()
 
 class CMain(QtGui.QMainWindow):
         def __init__(self):
@@ -48,6 +50,7 @@ class CMain(QtGui.QMainWindow):
                 #timer input czy doliczyc cykl maszyny
                 self.check_cycle = QtCore.QTimer()
                 self.check_cycle.timeout.connect(self.checkCycle)
+                self.enable = False
                 
                 self.counter = 0
                 self.counter2 = 0
@@ -88,7 +91,15 @@ class CMain(QtGui.QMainWindow):
         def checkInput(self):
                 print GPIO.input(4)
                 if GPIO.input(4):
-                        self.move_motor(self.rot_to_steps(float(self.ui.lcdSteps.value()))) 
+                        if self.enable is True:
+                                self.enable = False
+                                run_motor_thread_lock.acquire()
+                                self.move_motor(self.rot_to_steps(float(self.ui.lcdSteps.value()))) 
+                                time.sleep(0.2)
+                                self.enable = True
+                                run_motor_thread_lock.release()
+                        else:
+                                print "probowalem powtorzyc obrot"
                         
         def checkCycle(self):
                         self.ui.lcdCounter.display(self.cycles)
@@ -100,6 +111,7 @@ class CMain(QtGui.QMainWindow):
         def startBtn_Clicked(self):
                 if self.ui.startBtn.isChecked() == True:
                         print "wcisnalem"
+                        self.enable = True
                         self.check_cycle.start(10)
                         self.check_input.start(1)
                         self.ui.startBtn.setStyleSheet(_fromUtf8("background: red; color: white"))
@@ -108,6 +120,7 @@ class CMain(QtGui.QMainWindow):
                         self.ui.downBtn.setEnabled(False)
                 else:
                         print "odcisnalem"
+                        self.enable = False
                         self.check_cycle.stop()
                         self.check_input.stop()
                         self.ui.startBtn.setStyleSheet(_fromUtf8("background: green; color: white"))
