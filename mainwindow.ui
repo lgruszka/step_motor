@@ -14,51 +14,13 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="upBtn">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>24</y>
-      <width>81</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>81</width>
-      <height>81</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="downBtn">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>114</y>
-      <width>81</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>81</width>
-      <height>81</height>
-     </size>
-    </property>
-   </widget>
    <widget class="QPushButton" name="resetCounterBtn">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>144</y>
-      <width>161</width>
-      <height>121</height>
+      <x>200</x>
+      <y>10</y>
+      <width>261</width>
+      <height>151</height>
      </rect>
     </property>
     <property name="font">
@@ -73,30 +35,11 @@
      <string>reset</string>
     </property>
    </widget>
-   <widget class="QLCDNumber" name="lcdSteps">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>44</y>
-      <width>161</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="smallDecimalPoint">
-     <bool>false</bool>
-    </property>
-    <property name="value" stdset="0">
-     <double>6.000000000000000</double>
-    </property>
-    <property name="intValue" stdset="0">
-     <number>6</number>
-    </property>
-   </widget>
    <widget class="QLCDNumber" name="lcdCounter">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>44</y>
+      <x>20</x>
+      <y>40</y>
       <width>161</width>
       <height>81</height>
      </rect>
@@ -106,7 +49,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>144</y>
+      <y>130</y>
       <width>161</width>
       <height>121</height>
      </rect>
@@ -130,8 +73,8 @@ color: white</string>
    <widget class="QPushButton" name="exitBtn">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>229</y>
+      <x>380</x>
+      <y>180</y>
       <width>81</width>
       <height>71</height>
      </rect>
@@ -149,13 +92,13 @@ color: white;
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>264</y>
+      <y>280</y>
       <width>161</width>
-      <height>31</height>
+      <height>91</height>
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -170,25 +113,31 @@ color: white;
      </font>
     </property>
     <property name="text">
-     <string>ilość obrotów </string>
+     <string>ilość cykli</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QPushButton" name="paramBtn">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>10</y>
+      <x>200</x>
+      <y>180</y>
       <width>161</width>
-      <height>31</height>
+      <height>71</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>14</pointsize>
+      <pointsize>20</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="text">
-     <string>ilość cykli</string>
+     <string>parametry</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
