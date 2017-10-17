@@ -17,10 +17,10 @@
    <widget class="QPushButton" name="resetCounterBtn">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>240</x>
       <y>10</y>
-      <width>261</width>
-      <height>151</height>
+      <width>221</width>
+      <height>131</height>
      </rect>
     </property>
     <property name="font">
