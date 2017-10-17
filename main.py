@@ -90,7 +90,7 @@ class CMain(QtGui.QMainWindow):
                 return steps
 
         def vel_to_pause(self, vel):
-                pause = 1.0/(200.*config.microstep*vel)
+                pause = 1.0/(200.*config.microstep*vel)/2.0
                 return pause
                 
         #zakrec silnik
@@ -98,7 +98,6 @@ class CMain(QtGui.QMainWindow):
                 print "obracam motor o {}".format(steps)
                 print datetime.datetime.now()
                 for i in range(int(steps)):
-                    print pause
                     GPIO.output(21,GPIO.HIGH)
                     time.sleep(0.001)
                     GPIO.output(21,GPIO.LOW)
@@ -150,6 +149,7 @@ class CMain(QtGui.QMainWindow):
         
         def exitBtn_Clicked(self):
                 self.close()
+                GPIO.cleanup()
                 #os.system("shutdown now -h")                       
                
                
@@ -160,6 +160,10 @@ class CParamWindow(QtGui.QDialog):
                 self.ui.setupUi(self)
                 self.ui.upBtn.clicked.connect(self.upBtn_Clicked)
                 self.ui.downBtn.clicked.connect(self.downBtn_Clicked)
+                self.ui.upBtn.setAutoRepeat(True)
+                self.ui.downBtn.setAutoRepeat(True)
+                self.ui.upBtn.setAutoRepeatInterval(20)
+                self.ui.downBtn.setAutoRepeatInterval(20)
                 self.ui.returnBtn.clicked.connect(self.returnBtn_Clicked)
                 self.ui.rotateNrBtn.clicked.connect(self.rotateNrBtn_Clicked)
                 self.ui.velBtn.clicked.connect(self.velBtn_Clicked)
