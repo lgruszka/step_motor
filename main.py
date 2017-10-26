@@ -55,8 +55,10 @@ except AttributeError:
 pathname = os.path.dirname(sys.argv[0])
 #run_motor_thread_lock = threading.Lock()
 
-
-
+def cycle_done(channel):
+                        config.cycles = config.cycles + 1
+                        if config.cycles >= config.cycles_to_reset:
+                               GPIO.output(19,GPIO.HIGH)
 
 #TODO zapisz parametry do pliku i odczytaj z pliku
 #TODO sprawdzic wyjscie na piszczalke
@@ -81,6 +83,8 @@ class CMain(QtGui.QMainWindow):
                 self.check_cycle = QtCore.QTimer()
                 self.check_cycle.timeout.connect(self.checkCycle)
                 
+                self.check_cycle.stop()
+                self.check_input.stop()
 
 
                 
@@ -99,12 +103,10 @@ class CMain(QtGui.QMainWindow):
                 print datetime.datetime.now()
                 for i in range(int(steps)):
                     GPIO.output(21,GPIO.HIGH)
-                    time.sleep(0.001)
+                    time.sleep(pause)
                     GPIO.output(21,GPIO.LOW)
-                    time.sleep(0.001)
+                    time.sleep(pause)
                 print "koniec obrotu"
-                #do usuniecia - zastapic przez sygnal maszyny
-                config.cycles = config.cycles + 1
         
         def checkInput(self):
                 if GPIO.input(20):
@@ -116,9 +118,7 @@ class CMain(QtGui.QMainWindow):
                         
         def checkCycle(self):
                         self.ui.lcdCounter.display(config.cycles)
-                        if config.cycles >= config.cycles_to_reset:
-                               GPIO.output(19,GPIO.HIGH)
-                
+
         def resetCounterBtn_Clicked(self):
                 config.cycles = 0
                 GPIO.output(19,GPIO.LOW)
@@ -130,25 +130,32 @@ class CMain(QtGui.QMainWindow):
                         config.enable = True
                         self.check_cycle.start(10)
                         self.check_input.start(1)
+			GPIO.add_event_detect(16, GPIO.RISING, callback = cycle_done, bouncetime = 300)
                         self.ui.startBtn.setStyleSheet(_fromUtf8("background: red; color: white"))
                         self.ui.startBtn.setText("stop")
-                        self.ui.upBtn.setEnabled(False)
-                        self.ui.downBtn.setEnabled(False)
+                        if config.cycles >= config.cycles_to_reset:
+                               GPIO.output(19,GPIO.HIGH)
+                        else:
+                               GPIO.output(19,GPIO.LOW)
                 else:
                         print "odcisnalem"
                         enable = False
+
+                        GPIO.output(19,GPIO.LOW)
+                        GPIO.output(21,GPIO.LOW)
                         self.check_cycle.stop()
                         self.check_input.stop()
+			GPIO.remove_event_detect(16)
                         self.ui.startBtn.setStyleSheet(_fromUtf8("background: green; color: white"))
                         self.ui.startBtn.setText("start")
-                        self.ui.upBtn.setEnabled(True)
-                        self.ui.downBtn.setEnabled(True)
         
         def paramBtn_Clicked(self):
                 param_window.showFullScreen()
         
         def exitBtn_Clicked(self):
                 self.close()
+                self.check_cycle.stop()
+                self.check_input.stop()
                 GPIO.cleanup()
                 #os.system("shutdown now -h")                       
                
@@ -162,8 +169,8 @@ class CParamWindow(QtGui.QDialog):
                 self.ui.downBtn.clicked.connect(self.downBtn_Clicked)
                 self.ui.upBtn.setAutoRepeat(True)
                 self.ui.downBtn.setAutoRepeat(True)
-                self.ui.upBtn.setAutoRepeatInterval(20)
-                self.ui.downBtn.setAutoRepeatInterval(20)
+                self.ui.upBtn.setAutoRepeatInterval(200)
+                self.ui.downBtn.setAutoRepeatInterval(200)
                 self.ui.returnBtn.clicked.connect(self.returnBtn_Clicked)
                 self.ui.rotateNrBtn.clicked.connect(self.rotateNrBtn_Clicked)
                 self.ui.velBtn.clicked.connect(self.velBtn_Clicked)
@@ -206,6 +213,8 @@ class CParamWindow(QtGui.QDialog):
                 self.ui.lcdCycles.display(config.cycles_to_reset)
                 
         def rotateNrBtn_Clicked(self):
+                self.ui.upBtn.setAutoRepeatInterval(200)
+                self.ui.downBtn.setAutoRepeatInterval(200)
                 if self.ui.rotateNrBtn.isChecked == False:
                         self.ui.rotateNrBtn.setChecked(True)
                 else:
@@ -213,6 +222,8 @@ class CParamWindow(QtGui.QDialog):
                         self.ui.cycleNrBtn.setChecked(False)
                 
         def velBtn_Clicked(self):
+                self.ui.upBtn.setAutoRepeatInterval(200)
+                self.ui.downBtn.setAutoRepeatInterval(200)
                 if self.ui.velBtn.isChecked == False:
                         self.ui.velBtn.setChecked(True)
                 else:
@@ -220,6 +231,8 @@ class CParamWindow(QtGui.QDialog):
                         self.ui.cycleNrBtn.setChecked(False)
                 
         def cycleNrBtn_Clicked(self):
+                self.ui.upBtn.setAutoRepeatInterval(20)
+                self.ui.downBtn.setAutoRepeatInterval(20)
                 if self.ui.cycleNrBtn.isChecked == False:
                         self.ui.cycleNrBtn.setChecked(True)
                 else:
