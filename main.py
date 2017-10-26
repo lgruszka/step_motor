@@ -98,12 +98,12 @@ class CMain(QtGui.QMainWindow):
                 return pause
                 
         #zakrec silnik
-        def move_motor(self):
+        def move_motor(self, channel):
                 if config.enable is True:
-                        print "obracam motor o {}".format(steps)
-                        print datetime.datetime.now()
                         pause = self.vel_to_pause(float(config.velocity))
                         steps = self.rot_to_steps(float(config.rotates_per_cycle))
+                        print "obracam motor o {}".format(steps)
+                        print datetime.datetime.now()
                         for i in range(int(steps)):
                             GPIO.output(21,GPIO.HIGH)
                             time.sleep(pause)
