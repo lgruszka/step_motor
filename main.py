@@ -76,15 +76,15 @@ class CMain(QtGui.QMainWindow):
                 self.ui.paramBtn.clicked.connect(self.paramBtn_Clicked)
                 
                 #timer input czy jest rozkaz od maszyny
-                self.check_input = QtCore.QTimer()
-                self.check_input.timeout.connect(self.checkInput)
+#                self.check_input = QtCore.QTimer()
+#                self.check_input.timeout.connect(self.checkInput)
                 
                 #timer input czy doliczyc cykl maszyny
                 self.check_cycle = QtCore.QTimer()
                 self.check_cycle.timeout.connect(self.checkCycle)
                 
                 self.check_cycle.stop()
-                self.check_input.stop()
+                #self.check_input.stop()
 
 
                 
@@ -98,23 +98,28 @@ class CMain(QtGui.QMainWindow):
                 return pause
                 
         #zakrec silnik
-        def move_motor(self, steps, pause):
-                print "obracam motor o {}".format(steps)
-                print datetime.datetime.now()
-                for i in range(int(steps)):
-                    GPIO.output(21,GPIO.HIGH)
-                    time.sleep(pause)
-                    GPIO.output(21,GPIO.LOW)
-                    time.sleep(pause)
-                print "koniec obrotu"
+        def move_motor(self):
+                if config.enable is True:
+                        print "obracam motor o {}".format(steps)
+                        print datetime.datetime.now()
+                        pause = self.vel_to_pause(float(config.velocity))
+                        steps = self.rot_to_steps(float(config.rotates_per_cycle))
+                        for i in range(int(steps)):
+                            GPIO.output(21,GPIO.HIGH)
+                            time.sleep(pause)
+                            GPIO.output(21,GPIO.LOW)
+                            time.sleep(pause)
+                        print "koniec obrotu"
+                else:
+                        print "probowalem w trybie zabronionym"
         
-        def checkInput(self):
-                if GPIO.input(20):
-                        if config.enable is True:
-                                self.move_motor(self.rot_to_steps(float(config.rotates_per_cycle)), self.vel_to_pause(float(config.velocity))) 
-                                time.sleep(0.2)
-                        else:
-                                print "probowalem w trybie zabronionym"
+#        def checkInput(self):
+#                if GPIO.input(20):
+#                        if config.enable is True:
+#                                self.move_motor(self.rot_to_steps(float(config.rotates_per_cycle)), self.vel_to_pause(float(config.velocity))) 
+#                                time.sleep(0.2)
+#                        else:
+#                                print "probowalem w trybie zabronionym"
                         
         def checkCycle(self):
                         self.ui.lcdCounter.display(config.cycles)
@@ -129,7 +134,8 @@ class CMain(QtGui.QMainWindow):
                         print "wcisnalem"
                         config.enable = True
                         self.check_cycle.start(10)
-                        self.check_input.start(1)
+                        #self.check_input.start(1)
+			GPIO.add_event_detect(20, GPIO.RISING, callback = self.move_motor, bouncetime = 3000)
 			GPIO.add_event_detect(16, GPIO.RISING, callback = cycle_done, bouncetime = 300)
                         self.ui.startBtn.setStyleSheet(_fromUtf8("background: red; color: white"))
                         self.ui.startBtn.setText("stop")
@@ -144,8 +150,9 @@ class CMain(QtGui.QMainWindow):
                         GPIO.output(19,GPIO.LOW)
                         GPIO.output(21,GPIO.LOW)
                         self.check_cycle.stop()
-                        self.check_input.stop()
+                        #self.check_input.stop()
 			GPIO.remove_event_detect(16)
+			GPIO.remove_event_detect(20)
                         self.ui.startBtn.setStyleSheet(_fromUtf8("background: green; color: white"))
                         self.ui.startBtn.setText("start")
         
@@ -155,7 +162,7 @@ class CMain(QtGui.QMainWindow):
         def exitBtn_Clicked(self):
                 self.close()
                 self.check_cycle.stop()
-                self.check_input.stop()
+                #self.check_input.stop()
                 GPIO.cleanup()
                 #os.system("shutdown now -h")                       
                
