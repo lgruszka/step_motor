@@ -35,7 +35,7 @@ GPIO.setup(21,GPIO.OUT, initial=GPIO.LOW)
 #ustaw 26 jako wyjscie w stanie zawsze wysokim
 GPIO.setup(26,GPIO.OUT, initial=GPIO.HIGH)
 #ustaw 19 jako wyjscie na brzeczek
-GPIO.setup(19,GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(19,GPIO.OUT, initial=GPIO.HIGH)
 
 #ustaw 20 jako wejscie i sciagnij napiecie w dol
 GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
@@ -58,7 +58,7 @@ pathname = os.path.dirname(sys.argv[0])
 def cycle_done(channel):
                         config.cycles = config.cycles + 1
                         if config.cycles >= config.cycles_to_reset:
-                               GPIO.output(19,GPIO.HIGH)
+                               GPIO.output(19,GPIO.LOW)
 
 #TODO zapisz parametry do pliku i odczytaj z pliku
 #TODO sprawdzic wyjscie na piszczalke
@@ -126,7 +126,7 @@ class CMain(QtGui.QMainWindow):
 
         def resetCounterBtn_Clicked(self):
                 config.cycles = 0
-                GPIO.output(19,GPIO.LOW)
+                GPIO.output(19,GPIO.HIGH)
                 self.ui.lcdCounter.display(config.cycles)
                 
         def startBtn_Clicked(self):
@@ -140,14 +140,14 @@ class CMain(QtGui.QMainWindow):
                         self.ui.startBtn.setStyleSheet(_fromUtf8("background: red; color: white"))
                         self.ui.startBtn.setText("stop")
                         if config.cycles >= config.cycles_to_reset:
-                               GPIO.output(19,GPIO.HIGH)
-                        else:
                                GPIO.output(19,GPIO.LOW)
+                        else:
+                               GPIO.output(19,GPIO.HIGH)
                 else:
                         print "odcisnalem"
                         enable = False
 
-                        GPIO.output(19,GPIO.LOW)
+                        GPIO.output(19,GPIO.HIGH)
                         GPIO.output(21,GPIO.LOW)
                         self.check_cycle.stop()
                         #self.check_input.stop()
