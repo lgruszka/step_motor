@@ -77,7 +77,7 @@ class CMain(QtGui.QMainWindow):
                 
                 #timer input czy jest rozkaz od maszyny
                 self.check_run_motor = QtCore.QTimer()
-                self.check_run_motor.timeout.connect(self.checkCycle)
+                self.check_run_motor.timeout.connect(self.checkRunMotor)
                 
                 #timer input czy doliczyc cykl maszyny
                 self.check_cycle = QtCore.QTimer()
@@ -117,8 +117,8 @@ class CMain(QtGui.QMainWindow):
                         print "probowalem w trybie zabronionym"
         
         def checkRunMotor(self):
-                self.ilosc_obrotow = self.ilosc_obrotow + 1
                 if GPIO.input(20):
+                        self.ilosc_obrotow = self.ilosc_obrotow + 1
                         if config.enable is True:
                                 self.move_motor(20) 
                                 time.sleep(0.2)
@@ -154,7 +154,7 @@ class CMain(QtGui.QMainWindow):
                                GPIO.output(19,GPIO.HIGH)
                 else:
                         print "odcisnalem"
-                        enable = False
+                        config.enable = False
 
                         GPIO.output(19,GPIO.HIGH)
                         GPIO.output(21,GPIO.LOW)
