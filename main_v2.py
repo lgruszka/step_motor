@@ -124,14 +124,16 @@ class CMain(QtGui.QMainWindow):
                                 time.sleep(0.2)
                                 print "zakrecone {}".format(self.ilosc_obrotow)
                                 self.check_cycle.start(1)
+                                self.check_run_motor.stop()
                         else:
                                 print "probowalem w trybie zabronionym"
                         
         def checkCycle(self):
-                        self.ui.lcdCounter.display(config.cycles)
                         if GPIO.input(12):
                                 cycle_done(12)
                                 self.check_cycle.stop()
+                                self.check_run_motor.start(10)
+                        self.ui.lcdCounter.display(config.cycles)
 
         def resetCounterBtn_Clicked(self):
                 config.cycles = 0
