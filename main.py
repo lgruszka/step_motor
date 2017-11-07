@@ -40,7 +40,7 @@ GPIO.setup(19,GPIO.OUT, initial=GPIO.HIGH)
 #ustaw 20 jako wejscie i sciagnij napiecie w dol
 GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 #ustaw 16 jako wejscie i sciagnij napiecie w dol
-GPIO.setup(16,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(12,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 from mainwindow import Ui_MainWindow
 from w_parameters import Ui_ParamWindow
@@ -100,7 +100,9 @@ class CMain(QtGui.QMainWindow):
         #zakrec silnik
         def move_motor(self, channel):
                 if config.enable is True:
-                        pause = self.vel_to_pause(float(config.velocity))
+			#GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+			#time.sleep(0.5)                        
+			pause = self.vel_to_pause(float(config.velocity))
                         steps = self.rot_to_steps(float(config.rotates_per_cycle))
                         print "obracam motor o {}".format(steps)
                         print datetime.datetime.now()
@@ -136,7 +138,7 @@ class CMain(QtGui.QMainWindow):
                         self.check_cycle.start(10)
                         #self.check_input.start(1)
 			GPIO.add_event_detect(20, GPIO.RISING, callback = self.move_motor, bouncetime = 3000)
-			GPIO.add_event_detect(16, GPIO.RISING, callback = cycle_done, bouncetime = 300)
+			GPIO.add_event_detect(12, GPIO.RISING, callback = cycle_done, bouncetime = 1000)
                         self.ui.startBtn.setStyleSheet(_fromUtf8("background: red; color: white"))
                         self.ui.startBtn.setText("stop")
                         if config.cycles >= config.cycles_to_reset:
@@ -151,7 +153,7 @@ class CMain(QtGui.QMainWindow):
                         GPIO.output(21,GPIO.LOW)
                         self.check_cycle.stop()
                         #self.check_input.stop()
-			GPIO.remove_event_detect(16)
+			GPIO.remove_event_detect(12)
 			GPIO.remove_event_detect(20)
                         self.ui.startBtn.setStyleSheet(_fromUtf8("background: green; color: white"))
                         self.ui.startBtn.setText("start")
