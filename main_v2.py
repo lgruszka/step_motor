@@ -6,41 +6,41 @@ from __builtin__ import True
 import sys
 import os
 import config
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 import time
 import datetime
 #import threading
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
+#GPIO.setmode(GPIO.BCM)
+#GPIO.setwarnings(False)
 
-#21 to wyjscie do sterownika silnika
-#19 wystawiam jako wyjscie na brzeczek
-#16 jako wejscie na sygnal z maszyny czy cykl wykonano
-#26 wystawiam na zawsze wysoki jako symulator sygnalu z maszyny
-#20 ustawiam jako wejscie do odczytu sygnalu z maszyny wywolujacej ruch
+##21 to wyjscie do sterownika silnika
+##19 wystawiam jako wyjscie na brzeczek
+##16 jako wejscie na sygnal z maszyny czy cykl wykonano
+##26 wystawiam na zawsze wysoki jako symulator sygnalu z maszyny
+##20 ustawiam jako wejscie do odczytu sygnalu z maszyny wywolujacej ruch
 
 
-#   ] [
-#   ] [
-#  05 G
-#  06 12
-#  13 G
-#  19 16
-#  26 20
-#  G  21
+##   ] [
+##   ] [
+##  05 G
+##  06 12
+##  13 G
+##  19 16
+##  26 20
+##  G  21
 
-#ustaw 21 jako wyjscie na sterownik silnika
-GPIO.setup(21,GPIO.OUT, initial=GPIO.LOW)
-#ustaw 26 jako wyjscie w stanie zawsze wysokim
-GPIO.setup(26,GPIO.OUT, initial=GPIO.HIGH)
-#ustaw 19 jako wyjscie na brzeczek
-GPIO.setup(19,GPIO.OUT, initial=GPIO.HIGH)
+##ustaw 21 jako wyjscie na sterownik silnika
+#GPIO.setup(21,GPIO.OUT, initial=GPIO.LOW)
+##ustaw 26 jako wyjscie w stanie zawsze wysokim
+#GPIO.setup(26,GPIO.OUT, initial=GPIO.HIGH)
+##ustaw 19 jako wyjscie na brzeczek
+#GPIO.setup(19,GPIO.OUT, initial=GPIO.HIGH)
 
-#ustaw 20 jako wejscie i sciagnij napiecie w dol
-GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-#ustaw 16 jako wejscie i sciagnij napiecie w dol
-GPIO.setup(12,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+##ustaw 20 jako wejscie i sciagnij napiecie w dol
+#GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+##ustaw 16 jako wejscie i sciagnij napiecie w dol
+#GPIO.setup(12,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 from mainwindow import Ui_MainWindow
 from w_parameters import Ui_ParamWindow
@@ -74,6 +74,8 @@ class CMain(QtGui.QMainWindow):
                 self.ui.resetCounterBtn.clicked.connect(self.resetCounterBtn_Clicked)
                 self.ui.exitBtn.clicked.connect(self.exitBtn_Clicked)
                 self.ui.paramBtn.clicked.connect(self.paramBtn_Clicked)
+                
+                self.ui.lcdClock.display(time.strftime("%H"+":"+"%M"+":"+"%S"))
                 
                 #timer input czy jest rozkaz od maszyny
                 self.check_run_motor = QtCore.QTimer()
@@ -129,6 +131,7 @@ class CMain(QtGui.QMainWindow):
                                 print "probowalem w trybie zabronionym"
                         
         def checkCycle(self):
+                        self.ui.lcdClock.display(time.strftime("%H"+":"+"%M"+":"+"%S"))
                         if GPIO.input(12):
                                 cycle_done(12)
                                 self.check_cycle.stop()
@@ -270,8 +273,7 @@ if __name__=='__main__':
         main_window = CMain()
         param_window = CParamWindow()
 
-        main_window.ui.lineEdit.setVisible(False)
-        main_window.showFullScreen()
+        main_window.show()#FullScreen()
         print "1"
         sys.exit(app.exec_())
         GPIO.cleanup()

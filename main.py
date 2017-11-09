@@ -77,6 +77,7 @@ class CMain(QtGui.QMainWindow):
                 self.ui.exitBtn.clicked.connect(self.exitBtn_Clicked)
                 self.ui.paramBtn.clicked.connect(self.paramBtn_Clicked)
                 
+                self.ui.lcdClock.display(time.strftime("%H"+":"+"%M"+":"+"%S"))
                 #timer input czy jest rozkaz od maszyny
 #                self.check_input = QtCore.QTimer()
 #                self.check_input.timeout.connect(self.checkInput)
@@ -128,6 +129,7 @@ class CMain(QtGui.QMainWindow):
 #                                print "probowalem w trybie zabronionym"
                         
         def checkCycle(self):
+                        self.ui.lcdClock.display(time.strftime("%H"+":"+"%M"+":"+"%S"))
                         self.ui.lcdCounter.display(config.cycles)
 
         def resetCounterBtn_Clicked(self):
@@ -265,7 +267,6 @@ if __name__=='__main__':
         main_window = CMain()
         param_window = CParamWindow()
 
-        main_window.ui.lineEdit.setVisible(False)
         main_window.showFullScreen()
         print "1"
         sys.exit(app.exec_())
