@@ -55,12 +55,6 @@ except AttributeError:
 pathname = os.path.dirname(sys.argv[0])
 #run_motor_thread_lock = threading.Lock()
 
-def cycle_done(channel):
-                        config.cycles = config.cycles + 1
-                        if config.cycles >= config.cycles_to_reset:
-                               GPIO.output(19,GPIO.LOW)
-			GPIO.remove_event_detect(12)
-			GPIO.add_event_detect(20, GPIO.RISING, callback = self.move_motor, bouncetime = 300)
 
 #TODO zapisz parametry do pliku i odczytaj z pliku
 #TODO sprawdzic wyjscie na piszczalke
@@ -99,10 +93,21 @@ class CMain(QtGui.QMainWindow):
         def vel_to_pause(self, vel):
                 pause = 1.0/(200.*config.microstep*vel)/2.0
                 return pause
+
+	def cycle_done(self, channel):
+			GPIO.remove_event_detect(12)                        
+			config.cycles = config.cycles + 1
+                        if config.cycles >= config.cycles_to_reset:
+                               GPIO.output(19,GPIO.LOW)
+			time.sleep(1.5)
+			GPIO.add_event_detect(20, GPIO.RISING, callback = self.move_motor, bouncetime = 300)
+			self.ui.lcdClock.display(time.strftime("%H"+":"+"%M"+":"+"%S"))
+
                 
         #zakrec silnik
         def move_motor(self, channel):
                 if config.enable is True:
+			GPIO.remove_event_detect(20)
 			#GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 			#time.sleep(0.5)                        
 			pause = self.vel_to_pause(float(config.velocity))
@@ -115,11 +120,14 @@ class CMain(QtGui.QMainWindow):
                             GPIO.output(21,GPIO.LOW)
                             time.sleep(pause)
                         print "koniec obrotu"
-			GPIO.remove_event_detect(20)
-			GPIO.add_event_detect(12, GPIO.RISING, callback = cycle_done, bouncetime = 100)
+			print '1'			
+			time.sleep(1.5)
+			print '2'
+			GPIO.add_event_detect(12, GPIO.RISING, callback = self.cycle_done, bouncetime = 100)
+			print '3'
                 else:
                         print "probowalem w trybie zabronionym"
-        
+        	self.ui.lcdClock.display(time.strftime("%H"+":"+"%M"+":"+"%S"))
 #        def checkInput(self):
 #                if GPIO.input(20):
 #                        if config.enable is True:
@@ -129,7 +137,7 @@ class CMain(QtGui.QMainWindow):
 #                                print "probowalem w trybie zabronionym"
                         
         def checkCycle(self):
-                        self.ui.lcdClock.display(time.strftime("%H"+":"+"%M"+":"+"%S"))
+                        #self.ui.lcdClock.display(time.strftime("%H"+":"+"%M"+":"+"%S"))
                         self.ui.lcdCounter.display(config.cycles)
 
         def resetCounterBtn_Clicked(self):
@@ -144,7 +152,7 @@ class CMain(QtGui.QMainWindow):
                         self.check_cycle.start(10)
                         #self.check_input.start(1)
 			GPIO.add_event_detect(20, GPIO.RISING, callback = self.move_motor, bouncetime = 300)
-			GPIO.add_event_detect(12, GPIO.RISING, callback = cycle_done, bouncetime = 100)
+			#GPIO.add_event_detect(12, GPIO.RISING, callback = cycle_done, bouncetime = 100)
                         self.ui.startBtn.setStyleSheet(_fromUtf8("background: red; color: white"))
                         self.ui.startBtn.setText("stop")
                         if config.cycles >= config.cycles_to_reset:
