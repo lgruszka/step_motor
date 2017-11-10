@@ -154,7 +154,7 @@ class CMain(QtGui.QMainWindow):
                         self.check_cycle.start(10)
                         #self.check_input.start(1)
 			GPIO.add_event_detect(20, GPIO.RISING, callback = self.move_motor, bouncetime = 300)
-			GPIO.add_event_detect(12, GPIO.RISING, callback = cycle_done, bouncetime = 100)
+			GPIO.add_event_detect(12, GPIO.RISING, callback = self.cycle_done, bouncetime = 100)
                         self.ui.startBtn.setStyleSheet(_fromUtf8("background: red; color: white"))
                         self.ui.startBtn.setText("stop")
                         if config.cycles >= config.cycles_to_reset:
