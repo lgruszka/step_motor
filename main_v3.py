@@ -138,10 +138,9 @@ class CMain(QtGui.QMainWindow):
                         print "koniec obrotu"
                 else:
                         print "probowalem w trybie zabronionym"
-        	self.ui.lcdClock.display(time.strftime("%H"+":"+"%M"+":"+"%S"))
                         
         def checkCycle(self):
-                        #self.ui.lcdClock.display(time.strftime("%H"+":"+"%M"+":"+"%S"))
+                        self.ui.lcdClock.display(time.strftime("%H"+":"+"%M"+":"+"%S"))
                         self.ui.lcdCounter.display(config.cycles)
 
         def resetCounterBtn_Clicked(self):
