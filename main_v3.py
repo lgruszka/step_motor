@@ -183,7 +183,11 @@ class CMain(QtGui.QMainWindow):
                 self.check_cycle.stop()
                 #self.check_input.stop()
                 GPIO.cleanup()
-                #os.system("shutdown now -h")                       
+                
+                try:
+                        os.system("sudo shutdown -h now")
+                except:
+                        os.system("shutdown now -h")                       
                
                
 class CParamWindow(QtGui.QDialog): 
