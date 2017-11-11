@@ -96,13 +96,14 @@ class CMain(QtGui.QMainWindow):
 
 	def cycle_done(self, channel): 
 	                count = 0
-                        if GPIO.input(12) and count<10:
-                                count=count+1
-                                time.sleep(0.1)
-                                print "cycle done {}".format(count)
-                        else:
-                                print "fake cycle sygnal"
-                                return            
+	                while(count<10):
+                                if GPIO.input(12):
+                                        count=count+1
+                                        time.sleep(0.1)
+                                        print "cycle done {}".format(count)
+                                else:
+                                        print "fake cycle sygnal"
+                                        return            
 			config.cycles = config.cycles + 1
                         if config.cycles >= config.cycles_to_reset:
                                GPIO.output(19,GPIO.LOW)
@@ -113,13 +114,14 @@ class CMain(QtGui.QMainWindow):
         #zakrec silnik
         def move_motor(self, channel):
                 count = 0
-                if GPIO.input(20) and count<10:
-                        count=count+1
-                        time.sleep(0.1)
-                        print "move motor {}".format(count)
-                else:
-                        print "fake motor sygnal"
-                        return
+                while (count < 10):
+                        if GPIO.input(20) and count<10:
+                                count=count+1
+                                time.sleep(0.1)
+                                print "move motor {}".format(count)
+                        else:
+                                print "fake motor sygnal"
+                                return
                 
                 if config.enable is True:
 			#GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
