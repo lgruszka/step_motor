@@ -38,9 +38,9 @@ GPIO.setup(26,GPIO.OUT, initial=GPIO.HIGH)
 GPIO.setup(19,GPIO.OUT, initial=GPIO.HIGH)
 
 #ustaw 20 jako wejscie i sciagnij napiecie w dol
-GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #ustaw 16 jako wejscie i sciagnij napiecie w dol
-GPIO.setup(12,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(12,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 from mainwindow import Ui_MainWindow
 from w_parameters import Ui_ParamWindow
@@ -97,7 +97,7 @@ class CMain(QtGui.QMainWindow):
 	def cycle_done(self, channel): 
 	                count = 0
 	                while(count<10):
-                                if GPIO.input(12):
+                                if GPIO.input(12) == 0:
                                         count=count+1
                                         time.sleep(0.1)
                                         print "cycle done {}".format(count)
@@ -115,7 +115,7 @@ class CMain(QtGui.QMainWindow):
         def move_motor(self, channel):
                 count = 0
                 while (count < 10):
-                        if GPIO.input(20) and count<10:
+                        if GPIO.input(20) == 0:
                                 count=count+1
                                 time.sleep(0.1)
                                 print "move motor {}".format(count)
