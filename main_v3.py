@@ -99,7 +99,7 @@ class CMain(QtGui.QMainWindow):
 	                while(count<10):
                                 if GPIO.input(12) == 0:
                                         count=count+1
-                                        time.sleep(0.03)
+                                        time.sleep(0.01)
                                         print "cycle done {}".format(count)
                                 else:
                                         print "fake cycle sygnal"
@@ -117,7 +117,7 @@ class CMain(QtGui.QMainWindow):
                 while (count < 10):
                         if GPIO.input(20) == 0:
                                 count=count+1
-                                time.sleep(0.1)
+                                time.sleep(0.03)
                                 print "move motor {}".format(count)
                         else:
                                 print "fake motor sygnal"
@@ -202,6 +202,12 @@ class CParamWindow(QtGui.QDialog):
                 self.ui.velBtn.clicked.connect(self.velBtn_Clicked)
                 self.ui.cycleNrBtn.clicked.connect(self.cycleNrBtn_Clicked)
                 
+                #ustawianie poczatkowych wartosci parametrow
+                self.plik = open(pathname+"/parametry.txt").readlines()
+                print self.plik
+                config.rotates_per_cycle = float(self.plik[1])
+                config.velocity = float(self.plik[3])
+                config.cycles_to_reset = float(self.plik[5])
                 self.ui.lcdSteps.display(config.rotates_per_cycle)
                 self.ui.lcdVel.display(config.velocity)
                 self.ui.lcdCycles.display(config.cycles_to_reset)
@@ -269,6 +275,8 @@ class CParamWindow(QtGui.QDialog):
                 config.rotates_per_cycle = self.ui.lcdSteps.value()
                 config.velocity = self.ui.lcdVel.value()
                 config.cycles_to_reset = self.ui.lcdCycles.value()
+                self.plik = ['rotates_per_cycle\n', str(config.rotates_per_cycle)+'\n', 'velocity\n', str(config.velocity)+'\n', 'cycles_to_reset\n', str(config.cycles_to_reset)+'\n']
+                open(pathname+"/parametry.txt", 'w').writelines((self.plik))
                 self.setVisible(False)
                 
                 
