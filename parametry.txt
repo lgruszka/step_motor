@@ -1,0 +1,6 @@
+rotates_per_cycle
+2.6
+velocity
+1.5
+cycles_to_reset
+10.0
