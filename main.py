@@ -38,9 +38,9 @@ GPIO.setup(26,GPIO.OUT, initial=GPIO.HIGH)
 GPIO.setup(19,GPIO.OUT, initial=GPIO.HIGH)
 
 #ustaw 20 jako wejscie i sciagnij napiecie w dol
-GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(20,GPIO.IN)#, pull_up_down=GPIO.PUD_UP)
 #ustaw 16 jako wejscie i sciagnij napiecie w dol
-GPIO.setup(12,GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(12,GPIO.IN)#, pull_up_down=GPIO.PUD_UP)
 
 from mainwindow import Ui_MainWindow
 from w_parameters import Ui_ParamWindow
