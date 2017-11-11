@@ -38,9 +38,9 @@ GPIO.setup(26,GPIO.OUT, initial=GPIO.HIGH)
 GPIO.setup(19,GPIO.OUT, initial=GPIO.HIGH)
 
 #ustaw 20 jako wejscie i sciagnij napiecie w dol
-GPIO.setup(20,GPIO.IN)#, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #ustaw 16 jako wejscie i sciagnij napiecie w dol
-GPIO.setup(12,GPIO.IN)#, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(12,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 from mainwindow import Ui_MainWindow
 from w_parameters import Ui_ParamWindow
@@ -141,7 +141,7 @@ class CMain(QtGui.QMainWindow):
                         config.enable = True
                         self.check_cycle.start(10)
                         #self.check_input.start(1)
-			#GPIO.add_event_detect(20, GPIO.RISING, callback = self.move_motor, bouncetime = 300)
+			GPIO.add_event_detect(20, GPIO.FALLING, callback = self.move_motor, bouncetime = 300)
 			GPIO.add_event_detect(12, GPIO.FALLING, callback = self.cycle_done, bouncetime = 100)
                         self.ui.startBtn.setStyleSheet(_fromUtf8("background: red; color: white"))
                         self.ui.startBtn.setText("stop")
