@@ -99,7 +99,7 @@ class CMain(QtGui.QMainWindow):
 	                while(count<10):
                                 if GPIO.input(12) == 0:
                                         count=count+1
-                                        time.sleep(0.1)
+                                        time.sleep(0.03)
                                         print "cycle done {}".format(count)
                                 else:
                                         print "fake cycle sygnal"
@@ -155,8 +155,8 @@ class CMain(QtGui.QMainWindow):
                         config.enable = True
                         self.check_cycle.start(10)
                         #self.check_input.start(1)
-			GPIO.add_event_detect(20, GPIO.FALLING, callback = self.move_motor, bouncetime = 1000)
-			GPIO.add_event_detect(12, GPIO.FALLING, callback = self.cycle_done, bouncetime = 1000)
+			GPIO.add_event_detect(20, GPIO.FALLING, callback = self.move_motor)
+			GPIO.add_event_detect(12, GPIO.FALLING, callback = self.cycle_done)
                         self.ui.startBtn.setStyleSheet(_fromUtf8("background: red; color: white"))
                         self.ui.startBtn.setText("stop")
                         if config.cycles >= config.cycles_to_reset:
