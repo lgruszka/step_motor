@@ -16,7 +16,8 @@ GPIO.setwarnings(False)
 
 #21 to wyjscie do sterownika silnika
 #19 wystawiam jako wyjscie na brzeczek
-#16 jako wejscie na sygnal z maszyny czy cykl wykonano
+#12 jako wejscie na sygnal z maszyny czy cykl wykonano
+#16 jako wejscie na sygnal reset z przycisku
 #26 wystawiam na zawsze wysoki jako symulator sygnalu z maszyny
 #20 ustawiam jako wejscie do odczytu sygnalu z maszyny wywolujacej ruch
 
@@ -37,10 +38,12 @@ GPIO.setup(26,GPIO.OUT, initial=GPIO.HIGH)
 #ustaw 19 jako wyjscie na brzeczek
 GPIO.setup(19,GPIO.OUT, initial=GPIO.HIGH)
 
-#ustaw 20 jako wejscie i sciagnij napiecie w dol
+#ustaw 20 jako wejscie i sciagnij napiecie w gore
 GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_UP)
-#ustaw 16 jako wejscie i sciagnij napiecie w dol
+#ustaw 12 jako wejscie i sciagnij napiecie w gore
 GPIO.setup(12,GPIO.IN, pull_up_down=GPIO.PUD_UP)
+#ustaw 16 jako wejscie i sciagnij napiecie w gore
+GPIO.setup(16,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 from mainwindow import Ui_MainWindow
 from w_parameters import Ui_ParamWindow
@@ -68,6 +71,7 @@ class CMain(QtGui.QMainWindow):
                 
                 self.ui.startBtn.clicked.connect(self.startBtn_Clicked)
                 self.ui.resetCounterBtn.clicked.connect(self.resetCounterBtn_Clicked)
+                self.ui.blockScreenBtn.clicked.connect(self.blockScreenBtn_Clicked)
                 self.ui.exitBtn.clicked.connect(self.exitBtn_Clicked)
                 self.ui.paramBtn.clicked.connect(self.paramBtn_Clicked)
                 
@@ -109,6 +113,19 @@ class CMain(QtGui.QMainWindow):
                                GPIO.output(19,GPIO.LOW)
 			time.sleep(1.5)
 			self.ui.lcdClock.display(time.strftime("%H"+":"+"%M"+":"+"%S"))
+
+	def reset_ext_btn(self, channel): 
+	                count = 0
+	                while(count<10):
+                                if GPIO.input(16) == 0:
+                                        count=count+1
+                                        time.sleep(0.01)
+                                        print "button pressed {}".format(count)
+                                else:
+                                        print "fake button sygnal"
+                                        return            
+			
+                        resetCounterBtn_Clicked()
 
                 
         #zakrec silnik
@@ -162,6 +179,7 @@ class CMain(QtGui.QMainWindow):
                         #self.check_input.start(1)
 			GPIO.add_event_detect(20, GPIO.FALLING, callback = self.move_motor)
 			GPIO.add_event_detect(12, GPIO.FALLING, callback = self.cycle_done)
+			GPIO.add_event_detect(16, GPIO.FALLING, callback = self.reset_ext_btn, bouncetime = 1000)
                         self.ui.startBtn.setStyleSheet(_fromUtf8("background: red; color: white"))
                         self.ui.startBtn.setText("stop")
                         if config.cycles >= config.cycles_to_reset:
@@ -177,12 +195,16 @@ class CMain(QtGui.QMainWindow):
                         self.check_cycle.stop()
                         #self.check_input.stop()
 			GPIO.remove_event_detect(12)
+			GPIO.remove_event_detect(16)
 			GPIO.remove_event_detect(20)
                         self.ui.startBtn.setStyleSheet(_fromUtf8("background: green; color: white"))
                         self.ui.startBtn.setText("start")
         
         def paramBtn_Clicked(self):
                 param_window.showFullScreen()
+        
+        def blockScreenBtn_Clicked(self):
+                QtGui.QMessageBox.information(self,'Info',"Blokada ekranu",QtGui.QMessageBox.Cancel)
         
         def exitBtn_Clicked(self):
                 self.close()

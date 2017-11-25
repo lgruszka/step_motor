@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file './mainwindow.ui'
+# Form implementation generated from reading ui file 'mainwindow.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -29,17 +29,17 @@ class Ui_MainWindow(object):
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.resetCounterBtn = QtGui.QPushButton(self.centralwidget)
-        self.resetCounterBtn.setGeometry(QtCore.QRect(20, 190, 201, 111))
+        self.resetCounterBtn.setGeometry(QtCore.QRect(20, 170, 201, 111))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.resetCounterBtn.setFont(font)
         self.resetCounterBtn.setStyleSheet(_fromUtf8("background: orange"))
         self.resetCounterBtn.setObjectName(_fromUtf8("resetCounterBtn"))
         self.lcdCounter = QtGui.QLCDNumber(self.centralwidget)
-        self.lcdCounter.setGeometry(QtCore.QRect(240, 110, 191, 61))
+        self.lcdCounter.setGeometry(QtCore.QRect(240, 90, 191, 61))
         self.lcdCounter.setObjectName(_fromUtf8("lcdCounter"))
         self.startBtn = QtGui.QPushButton(self.centralwidget)
-        self.startBtn.setGeometry(QtCore.QRect(20, 60, 201, 111))
+        self.startBtn.setGeometry(QtCore.QRect(20, 40, 201, 111))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.startBtn.setFont(font)
@@ -57,13 +57,13 @@ class Ui_MainWindow(object):
 ""))
         self.exitBtn.setObjectName(_fromUtf8("exitBtn"))
         self.label_2 = QtGui.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(340, 80, 101, 31))
+        self.label_2.setGeometry(QtCore.QRect(340, 60, 101, 31))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.label_2.setFont(font)
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.paramBtn = QtGui.QPushButton(self.centralwidget)
-        self.paramBtn.setGeometry(QtCore.QRect(240, 190, 191, 81))
+        self.paramBtn.setGeometry(QtCore.QRect(240, 170, 191, 81))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.paramBtn.setFont(font)
@@ -75,6 +75,12 @@ class Ui_MainWindow(object):
         self.lcdClock.setDigitCount(8)
         self.lcdClock.setProperty("value", 230000.0)
         self.lcdClock.setObjectName(_fromUtf8("lcdClock"))
+        self.blockScreenBtn = QtGui.QPushButton(self.centralwidget)
+        self.blockScreenBtn.setGeometry(QtCore.QRect(350, 270, 121, 41))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.blockScreenBtn.setFont(font)
+        self.blockScreenBtn.setObjectName(_fromUtf8("blockScreenBtn"))
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -87,6 +93,7 @@ class Ui_MainWindow(object):
         self.exitBtn.setText(_translate("MainWindow", "x", None))
         self.label_2.setText(_translate("MainWindow", "ilość cykli", None))
         self.paramBtn.setText(_translate("MainWindow", "ustawienia", None))
+        self.blockScreenBtn.setText(_translate("MainWindow", "blokuj ekran", None))
 
 
 if __name__ == "__main__":
