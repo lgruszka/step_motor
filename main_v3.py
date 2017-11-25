@@ -121,13 +121,15 @@ class CMain(QtGui.QMainWindow):
                                 print "move motor {}".format(count)
                         else:
                                 print "fake motor sygnal"
-                                return
-                
+                                return                
                 if config.enable is True:
 			#GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 			#time.sleep(0.5)                        
 			pause = self.vel_to_pause(float(config.velocity))
                         steps = self.rot_to_steps(float(config.rotates_per_cycle))
+			move_time = 2*pause*steps
+			print move_time
+
                         print "obracam motor o {}".format(steps)
                         print datetime.datetime.now()
                         for i in range(int(steps)):
@@ -136,6 +138,10 @@ class CMain(QtGui.QMainWindow):
                             GPIO.output(21,GPIO.LOW)
                             time.sleep(pause)
                         print "koniec obrotu"
+			if move_time <2.2:
+				time.sleep(2.2-move_time)
+			else:
+				pass 
                 else:
                         print "probowalem w trybie zabronionym"
                         
@@ -184,10 +190,10 @@ class CMain(QtGui.QMainWindow):
                 #self.check_input.stop()
                 GPIO.cleanup()
                 
-                try:
+                '''try:
                         os.system("sudo shutdown -h now")
                 except:
-                        os.system("shutdown now -h")                       
+                        os.system("shutdown now -h")'''                       
                
                
 class CParamWindow(QtGui.QDialog): 
