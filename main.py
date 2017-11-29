@@ -16,7 +16,8 @@ GPIO.setwarnings(False)
 
 #21 to wyjscie do sterownika silnika
 #19 wystawiam jako wyjscie na brzeczek
-#16 jako wejscie na sygnal z maszyny czy cykl wykonano
+#12 jako wejscie na sygnal z maszyny czy cykl wykonano
+#16 jako wejscie na sygnal reset z przycisku
 #26 wystawiam na zawsze wysoki jako symulator sygnalu z maszyny
 #20 ustawiam jako wejscie do odczytu sygnalu z maszyny wywolujacej ruch
 
@@ -37,10 +38,12 @@ GPIO.setup(26,GPIO.OUT, initial=GPIO.HIGH)
 #ustaw 19 jako wyjscie na brzeczek
 GPIO.setup(19,GPIO.OUT, initial=GPIO.HIGH)
 
-#ustaw 20 jako wejscie i sciagnij napiecie w dol
+#ustaw 20 jako wejscie i sciagnij napiecie w gore
 GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_UP)
-#ustaw 16 jako wejscie i sciagnij napiecie w dol
+#ustaw 12 jako wejscie i sciagnij napiecie w gore
 GPIO.setup(12,GPIO.IN, pull_up_down=GPIO.PUD_UP)
+#ustaw 16 jako wejscie i sciagnij napiecie w gore
+GPIO.setup(16,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 from mainwindow import Ui_MainWindow
 from w_parameters import Ui_ParamWindow
@@ -68,6 +71,7 @@ class CMain(QtGui.QMainWindow):
                 
                 self.ui.startBtn.clicked.connect(self.startBtn_Clicked)
                 self.ui.resetCounterBtn.clicked.connect(self.resetCounterBtn_Clicked)
+                self.ui.blockScreenBtn.clicked.connect(self.blockScreenBtn_Clicked)
                 self.ui.exitBtn.clicked.connect(self.exitBtn_Clicked)
                 self.ui.paramBtn.clicked.connect(self.paramBtn_Clicked)
                 
@@ -94,19 +98,55 @@ class CMain(QtGui.QMainWindow):
                 pause = 1.0/(200.*config.microstep*vel)/2.0
                 return pause
 
-	def cycle_done(self, channel):                     
+	def cycle_done(self, channel): 
+	                count = 0
+	                while(count<10):
+                                if GPIO.input(12) == 0:
+                                        count=count+1
+                                        time.sleep(0.01)
+                                        print "cycle done {}".format(count)
+                                else:
+                                        print "fake cycle sygnal"
+                                        return            
 			config.cycles = config.cycles + 1
                         if config.cycles >= config.cycles_to_reset:
                                GPIO.output(19,GPIO.LOW)
+			time.sleep(1.5)
+			self.ui.lcdClock.display(time.strftime("%H"+":"+"%M"+":"+"%S"))
+
+	def reset_ext_btn(self, channel): 
+	                count = 0
+	                while(count<5):
+                                if GPIO.input(16) == 0:
+                                        count=count+1
+                                        time.sleep(0.01)
+                                        print "button pressed {}".format(count)
+                                else:
+                                        print "fake button sygnal"
+                                        return            
+			
+                        resetCounterBtn_Clicked()
 
                 
         #zakrec silnik
         def move_motor(self, channel):
+                count = 0
+                while (count < 10):
+                        if GPIO.input(20) == 0:
+                                count=count+1
+                                time.sleep(0.03)
+                                print "move motor {}".format(count)
+                        else:
+                                print "fake motor sygnal"
+                                return                
                 if config.enable is True:
 			#GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 			#time.sleep(0.5)                        
 			pause = self.vel_to_pause(float(config.velocity))
                         steps = self.rot_to_steps(float(config.rotates_per_cycle))
+			move_time = 2*pause*steps
+			print move_time
+
                         print "obracam motor o {}".format(steps)
                         print datetime.datetime.now()
                         for i in range(int(steps)):
@@ -115,16 +155,12 @@ class CMain(QtGui.QMainWindow):
                             GPIO.output(21,GPIO.LOW)
                             time.sleep(pause)
                         print "koniec obrotu"
+			if move_time <2.2:
+				time.sleep(2.2-move_time)
+			else:
+				pass 
                 else:
                         print "probowalem w trybie zabronionym"
-        	self.ui.lcdClock.display(time.strftime("%H"+":"+"%M"+":"+"%S"))
-#        def checkInput(self):
-#                if GPIO.input(20):
-#                        if config.enable is True:
-#                                self.move_motor(self.rot_to_steps(float(config.rotates_per_cycle)), self.vel_to_pause(float(config.velocity))) 
-#                                time.sleep(0.2)
-#                        else:
-#                                print "probowalem w trybie zabronionym"
                         
         def checkCycle(self):
                         self.ui.lcdClock.display(time.strftime("%H"+":"+"%M"+":"+"%S"))
@@ -141,8 +177,9 @@ class CMain(QtGui.QMainWindow):
                         config.enable = True
                         self.check_cycle.start(10)
                         #self.check_input.start(1)
-			GPIO.add_event_detect(20, GPIO.FALLING, callback = self.move_motor, bouncetime = 300)
-			GPIO.add_event_detect(12, GPIO.FALLING, callback = self.cycle_done, bouncetime = 100)
+			GPIO.add_event_detect(20, GPIO.FALLING, callback = self.move_motor)
+			GPIO.add_event_detect(12, GPIO.FALLING, callback = self.cycle_done)
+			GPIO.add_event_detect(16, GPIO.FALLING, callback = self.reset_ext_btn)
                         self.ui.startBtn.setStyleSheet(_fromUtf8("background: red; color: white"))
                         self.ui.startBtn.setText("stop")
                         if config.cycles >= config.cycles_to_reset:
@@ -158,6 +195,7 @@ class CMain(QtGui.QMainWindow):
                         self.check_cycle.stop()
                         #self.check_input.stop()
 			GPIO.remove_event_detect(12)
+			GPIO.remove_event_detect(16)
 			GPIO.remove_event_detect(20)
                         self.ui.startBtn.setStyleSheet(_fromUtf8("background: green; color: white"))
                         self.ui.startBtn.setText("start")
@@ -165,12 +203,19 @@ class CMain(QtGui.QMainWindow):
         def paramBtn_Clicked(self):
                 param_window.showFullScreen()
         
+        def blockScreenBtn_Clicked(self):
+                QtGui.QMessageBox.information(self,'Info',"Blokada ekranu",QtGui.QMessageBox.Cancel)
+        
         def exitBtn_Clicked(self):
                 self.close()
                 self.check_cycle.stop()
                 #self.check_input.stop()
                 GPIO.cleanup()
-                #os.system("shutdown now -h")                       
+                
+                '''try:
+                        os.system("sudo shutdown -h now")
+                except:
+                        os.system("shutdown now -h")'''                       
                
                
 class CParamWindow(QtGui.QDialog): 
@@ -189,6 +234,12 @@ class CParamWindow(QtGui.QDialog):
                 self.ui.velBtn.clicked.connect(self.velBtn_Clicked)
                 self.ui.cycleNrBtn.clicked.connect(self.cycleNrBtn_Clicked)
                 
+                #ustawianie poczatkowych wartosci parametrow
+                self.plik = open(pathname+"/parametry.txt").readlines()
+                print self.plik
+                config.rotates_per_cycle = float(self.plik[1])
+                config.velocity = float(self.plik[3])
+                config.cycles_to_reset = float(self.plik[5])
                 self.ui.lcdSteps.display(config.rotates_per_cycle)
                 self.ui.lcdVel.display(config.velocity)
                 self.ui.lcdCycles.display(config.cycles_to_reset)
@@ -256,6 +307,8 @@ class CParamWindow(QtGui.QDialog):
                 config.rotates_per_cycle = self.ui.lcdSteps.value()
                 config.velocity = self.ui.lcdVel.value()
                 config.cycles_to_reset = self.ui.lcdCycles.value()
+                self.plik = ['rotates_per_cycle\n', str(config.rotates_per_cycle)+'\n', 'velocity\n', str(config.velocity)+'\n', 'cycles_to_reset\n', str(config.cycles_to_reset)+'\n']
+                open(pathname+"/parametry.txt", 'w').writelines((self.plik))
                 self.setVisible(False)
                 
                 

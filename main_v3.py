@@ -116,7 +116,7 @@ class CMain(QtGui.QMainWindow):
 
 	def reset_ext_btn(self, channel): 
 	                count = 0
-	                while(count<10):
+	                while(count<5):
                                 if GPIO.input(16) == 0:
                                         count=count+1
                                         time.sleep(0.01)
@@ -179,7 +179,7 @@ class CMain(QtGui.QMainWindow):
                         #self.check_input.start(1)
 			GPIO.add_event_detect(20, GPIO.FALLING, callback = self.move_motor)
 			GPIO.add_event_detect(12, GPIO.FALLING, callback = self.cycle_done)
-			GPIO.add_event_detect(16, GPIO.FALLING, callback = self.reset_ext_btn, bouncetime = 1000)
+			GPIO.add_event_detect(16, GPIO.FALLING, callback = self.reset_ext_btn)
                         self.ui.startBtn.setStyleSheet(_fromUtf8("background: red; color: white"))
                         self.ui.startBtn.setText("stop")
                         if config.cycles >= config.cycles_to_reset:
