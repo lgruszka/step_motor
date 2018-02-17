@@ -17,16 +17,16 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>10</y>
+     <y>47</y>
      <width>161</width>
-     <height>81</height>
+     <height>71</height>
     </rect>
    </property>
    <property name="smallDecimalPoint">
     <bool>false</bool>
    </property>
    <property name="value" stdset="0">
-    <double>1.500000000000000</double>
+    <double>2.000000000000000</double>
    </property>
    <property name="intValue" stdset="0">
     <number>2</number>
@@ -74,9 +74,9 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>110</y>
+     <y>120</y>
      <width>161</width>
-     <height>81</height>
+     <height>71</height>
     </rect>
    </property>
    <property name="value" stdset="0">
@@ -86,8 +86,8 @@
   <widget class="QPushButton" name="velBtn">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>120</y>
+     <x>25</x>
+     <y>125</y>
      <width>161</width>
      <height>61</height>
     </rect>
@@ -108,8 +108,8 @@
   <widget class="QPushButton" name="rotateNrBtn">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>20</y>
+     <x>25</x>
+     <y>52</y>
      <width>161</width>
      <height>61</height>
     </rect>
@@ -133,8 +133,8 @@
   <widget class="QPushButton" name="cycleNrBtn">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>220</y>
+     <x>25</x>
+     <y>197</y>
      <width>161</width>
      <height>61</height>
     </rect>
@@ -156,9 +156,9 @@ do resetu</string>
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>210</y>
+     <y>193</y>
      <width>161</width>
-     <height>81</height>
+     <height>71</height>
     </rect>
    </property>
    <property name="smallDecimalPoint">
