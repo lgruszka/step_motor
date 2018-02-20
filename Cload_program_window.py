@@ -5,7 +5,7 @@ from PyQt4 import QtCore, QtGui
 import os
 
 import config
-form w_new_program import Ui_LoadProgramWindow 
+from w_load_program import Ui_LoadProgramWindow 
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -19,3 +19,12 @@ class CLoadProgramWindow(QtGui.QDialog):
         self.ui = Ui_LoadProgramWindow()
         self.ui.setupUi(self)
         self.ui.programCmbBox.clicked.connect(self.programCmbBox_Clicked)
+        
+
+    def programCmbBox_Clicked(self):
+            self.ui.programCmbBox.clear()
+            prg_list = [prg.split('.txt')[0] for prg in os.listdir(config.pathname+"/programy") if '.txt' in prg]
+            prg_list.sort()
+            for i in prg_list:
+                self.ui.programCmbBox.addItem(_fromUtf8(i))
+            self.ui.programCmbBox.setCurrentIndex(-1)

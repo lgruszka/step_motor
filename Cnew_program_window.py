@@ -5,7 +5,7 @@ from PyQt4 import QtCore, QtGui
 import os
 
 import config
-form w_new_program import Ui_NewProgramWindow 
+from w_new_program import Ui_NewProgramWindow 
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
