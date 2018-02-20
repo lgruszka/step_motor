@@ -18,7 +18,7 @@ class CLoadProgramWindow(QtGui.QDialog):
         QtGui.QDialog.__init__(self)
         self.ui = Ui_LoadProgramWindow()
         self.ui.setupUi(self)
-        self.ui.programCmbBox.clicked.connect(self.programCmbBox_Clicked)
+        #self.ui.programCmbBox.clicked.connect(self.programCmbBox_Clicked)
         
 
     def programCmbBox_Clicked(self):
