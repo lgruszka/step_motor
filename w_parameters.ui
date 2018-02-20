@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>47</y>
+     <y>20</y>
      <width>161</width>
      <height>71</height>
     </rect>
@@ -74,7 +74,7 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>120</y>
+     <y>93</y>
      <width>161</width>
      <height>71</height>
     </rect>
@@ -87,7 +87,7 @@
    <property name="geometry">
     <rect>
      <x>25</x>
-     <y>125</y>
+     <y>98</y>
      <width>161</width>
      <height>61</height>
     </rect>
@@ -109,7 +109,7 @@
    <property name="geometry">
     <rect>
      <x>25</x>
-     <y>52</y>
+     <y>25</y>
      <width>161</width>
      <height>61</height>
     </rect>
@@ -134,7 +134,7 @@
    <property name="geometry">
     <rect>
      <x>25</x>
-     <y>197</y>
+     <y>170</y>
      <width>161</width>
      <height>61</height>
     </rect>
@@ -156,7 +156,7 @@ do resetu</string>
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>193</y>
+     <y>166</y>
      <width>161</width>
      <height>71</height>
     </rect>
@@ -193,6 +193,58 @@ do resetu</string>
      <width>81</width>
      <height>81</height>
     </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="savePrgBtn">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>250</y>
+     <width>161</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>zapisz program</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>240</y>
+     <width>341</width>
+     <height>5</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="loadPrgBtn">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>250</y>
+     <width>161</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>wczytaj program</string>
    </property>
   </widget>
  </widget>

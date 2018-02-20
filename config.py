@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+pathname = ''
+current_program_name = None
+
 #parameters
 counter = 0
 counter2 = 0
