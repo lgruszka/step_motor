@@ -6,13 +6,13 @@ from __builtin__ import True
 import sys
 import os
 import config
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 import time
 import datetime
 #import threading
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
+#GPIO.setmode(GPIO.BCM)
+#GPIO.setwarnings(False)
 
 #21 to wyjscie do sterownika silnika
 #19 wystawiam jako wyjscie na brzeczek
@@ -32,16 +32,16 @@ GPIO.setwarnings(False)
 #  G  21
 
 #ustaw 21 jako wyjscie na sterownik silnika
-GPIO.setup(21,GPIO.OUT, initial=GPIO.LOW)
-#ustaw 26 jako wyjscie w stanie zawsze wysokim
-GPIO.setup(26,GPIO.OUT, initial=GPIO.HIGH)
-#ustaw 19 jako wyjscie na brzeczek
-GPIO.setup(19,GPIO.OUT, initial=GPIO.HIGH)
+#GPIO.setup(21,GPIO.OUT, initial=GPIO.LOW)
+##ustaw 26 jako wyjscie w stanie zawsze wysokim
+#GPIO.setup(26,GPIO.OUT, initial=GPIO.HIGH)
+##ustaw 19 jako wyjscie na brzeczek
+#GPIO.setup(19,GPIO.OUT, initial=GPIO.HIGH)
 
-#ustaw 20 jako wejscie i sciagnij napiecie w gore
-GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_UP)
-#ustaw 12 jako wejscie i sciagnij napiecie w gore
-GPIO.setup(12,GPIO.IN, pull_up_down=GPIO.PUD_UP)
+##ustaw 20 jako wejscie i sciagnij napiecie w gore
+#GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_UP)
+##ustaw 12 jako wejscie i sciagnij napiecie w gore
+#GPIO.setup(12,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #ustaw 16 jako wejscie i sciagnij napiecie w gore
 # GPIO.setup(16,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
@@ -51,6 +51,8 @@ from Cnew_program_window import CNewProgramWindow
 from Cload_program_window import CLoadProgramWindow
 
 from PyQt4 import QtCore, QtGui
+
+import keyboard
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -64,6 +66,26 @@ config.pathname = os.path.dirname(sys.argv[0])
 #TODO zapisz parametry do pliku i odczytaj z pliku
 #TODO sprawdzic wyjscie na piszczalke
 
+class RaspApplication(QtGui.QApplication):
+    def __init__(self,argv):
+        QtGui.QApplication.__init__(self,argv)
+        self.focusChanged.connect(self.FocusChanged)
+        self.last = None
+        self.installEventFilter(self)
+
+    def eventFilter(self, obiect, event):
+        if event.type() == QtCore.QEvent.KeyPress:
+            if event.key() in (QtCore.Qt.Key_Enter,QtCore.Qt.Key_Return):
+                if self.last: self.last.setFocus()
+                return True
+        return False
+
+    def FocusChanged(self, old, new):
+        if type(new) == QtGui.QLineEdit:
+            keyboard.Show()
+        else:
+            self.last = new
+            keyboard.Hide()
 
 class CMain(QtGui.QMainWindow):
         def __init__(self):
@@ -88,6 +110,7 @@ class CMain(QtGui.QMainWindow):
                 
                 self.check_cycle.stop()
                 # self.check_input.stop()
+                self.keyboard = keyboard.Open()
 
 
                 
@@ -209,6 +232,7 @@ class CMain(QtGui.QMainWindow):
         
         def exitBtn_Clicked(self):
                 self.close()
+                self.keyboard.Close()
                 self.check_cycle.stop()
                 #self.check_input.stop()
                 GPIO.cleanup()
@@ -223,7 +247,7 @@ class CMain(QtGui.QMainWindow):
                 
 if __name__=='__main__':
 
-        app = QtGui.QApplication(sys.argv)
+        app = RaspApplication(sys.argv)
         main_window = CMain()
         config.param_window = CParamWindow()
         config.new_program_window = CNewProgramWindow()

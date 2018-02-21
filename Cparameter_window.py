@@ -33,10 +33,11 @@ class CParamWindow(QtGui.QDialog):
                 
                 #ustawianie poczatkowych wartosci parametrow
                 self.plik = open(config.pathname+"/parametry.txt").readlines()
+                config.current_program_name = str(self.plik[0])[:-1]
                 print self.plik
-                config.rotates_per_cycle = float(self.plik[1])
-                config.velocity = float(self.plik[3])
-                config.cycles_to_reset = float(self.plik[5])
+                config.rotates_per_cycle = float(self.plik[2])
+                config.velocity = float(self.plik[4])
+                config.cycles_to_reset = float(self.plik[6])
                 self.ui.lcdSteps.display(config.rotates_per_cycle)
                 self.ui.lcdVel.display(config.velocity)
                 self.ui.lcdCycles.display(config.cycles_to_reset)
@@ -102,16 +103,17 @@ class CParamWindow(QtGui.QDialog):
 
         def loadPrgBtn_Clicked(self):
             config.load_program_window.showFullScreen()
-            config.load_program_window.programCmbBox_Clicked()
+            config.load_program_window.refreshProgramCmbBox()
             
         def savePrgBtn_Clicked(self):
             config.new_program_window.showFullScreen()
+            config.new_program_window.ui.lineEdit_prgName.setText(config.current_program_name)
 
         def returnBtn_Clicked(self):
                 config.rotates_per_cycle = self.ui.lcdSteps.value()
                 config.velocity = self.ui.lcdVel.value()
                 config.cycles_to_reset = self.ui.lcdCycles.value()
-                self.plik = ['rotates_per_cycle\n', str(config.rotates_per_cycle)+'\n', 'velocity\n', str(config.velocity)+'\n', 'cycles_to_reset\n', str(config.cycles_to_reset)+'\n']
+                self.plik = [str(config.current_program_name),'rotates_per_cycle\n', str(config.rotates_per_cycle)+'\n', 'velocity\n', str(config.velocity)+'\n', 'cycles_to_reset\n', str(config.cycles_to_reset)+'\n']
                 open(config.pathname+"/parametry.txt", 'w').writelines((self.plik))
                 self.setVisible(False)
                 

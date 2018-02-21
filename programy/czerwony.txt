@@ -1,4 +1,5 @@
-pomaranczowyrotates_per_cycle
+pomaranczowy
+rotates_per_cycle
 1.0
 velocity
 -0.5

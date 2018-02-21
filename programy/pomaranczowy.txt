@@ -1,5 +1,5 @@
-rotates_per_cycle
-0.3
+pomaranczowyrotates_per_cycle
+0.6
 velocity
 0.3
 cycles_to_reset

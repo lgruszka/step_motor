@@ -33,25 +33,25 @@ class Ui_NewProgramWindow(object):
         self.lineEdit_prgName.setFont(font)
         self.lineEdit_prgName.setObjectName(_fromUtf8("lineEdit_prgName"))
         self.pushButton_confirm = QtGui.QPushButton(NewProgramWindow)
-        self.pushButton_confirm.setGeometry(QtCore.QRect(110, 90, 121, 61))
+        self.pushButton_confirm.setGeometry(QtCore.QRect(148, 210, 151, 91))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.pushButton_confirm.setFont(font)
         self.pushButton_confirm.setObjectName(_fromUtf8("pushButton_confirm"))
-        self.pushButton_reject = QtGui.QPushButton(NewProgramWindow)
-        self.pushButton_reject.setGeometry(QtCore.QRect(230, 90, 121, 61))
+        self.pushButton_return = QtGui.QPushButton(NewProgramWindow)
+        self.pushButton_return.setGeometry(QtCore.QRect(300, 210, 151, 91))
         font = QtGui.QFont()
         font.setPointSize(14)
-        self.pushButton_reject.setFont(font)
-        self.pushButton_reject.setObjectName(_fromUtf8("pushButton_reject"))
+        self.pushButton_return.setFont(font)
+        self.pushButton_return.setObjectName(_fromUtf8("pushButton_return"))
 
         self.retranslateUi(NewProgramWindow)
         QtCore.QMetaObject.connectSlotsByName(NewProgramWindow)
 
     def retranslateUi(self, NewProgramWindow):
         NewProgramWindow.setWindowTitle(_translate("NewProgramWindow", "Dialog", None))
-        self.pushButton_confirm.setText(_translate("NewProgramWindow", "potwierdz", None))
-        self.pushButton_reject.setText(_translate("NewProgramWindow", "odrzuc", None))
+        self.pushButton_confirm.setText(_translate("NewProgramWindow", "Potwierdź", None))
+        self.pushButton_return.setText(_translate("NewProgramWindow", "Powrót", None))
 
 
 if __name__ == "__main__":
