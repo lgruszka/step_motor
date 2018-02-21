@@ -113,7 +113,7 @@ class CParamWindow(QtGui.QDialog):
                 config.rotates_per_cycle = self.ui.lcdSteps.value()
                 config.velocity = self.ui.lcdVel.value()
                 config.cycles_to_reset = self.ui.lcdCycles.value()
-                self.plik = [str(config.current_program_name),'rotates_per_cycle\n', str(config.rotates_per_cycle)+'\n', 'velocity\n', str(config.velocity)+'\n', 'cycles_to_reset\n', str(config.cycles_to_reset)+'\n']
+                self.plik = [str(config.current_program_name)+'\n','rotates_per_cycle\n', str(config.rotates_per_cycle)+'\n', 'velocity\n', str(config.velocity)+'\n', 'cycles_to_reset\n', str(config.cycles_to_reset)+'\n']
                 open(config.pathname+"/parametry.txt", 'w').writelines((self.plik))
                 self.setVisible(False)
                 

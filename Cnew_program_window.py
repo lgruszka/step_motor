@@ -27,10 +27,11 @@ class CNewProgramWindow(QtGui.QDialog):
         return self.ui.lineEdit_prgName.text()
         
     def saveParam(self, dest_path):
+        config.current_program_name = self.getName()
         config.rotates_per_cycle = config.param_window.ui.lcdSteps.value()
         config.velocity = config.param_window.ui.lcdVel.value()
         config.cycles_to_reset = config.param_window.ui.lcdCycles.value()
-        self.plik = [str(config.current_program_name),'rotates_per_cycle\n', str(config.rotates_per_cycle)+'\n', 'velocity\n', str(config.velocity)+'\n', 'cycles_to_reset\n', str(config.cycles_to_reset)+'\n']
+        self.plik = [str(config.current_program_name)+'\n','rotates_per_cycle\n', str(config.rotates_per_cycle)+'\n', 'velocity\n', str(config.velocity)+'\n', 'cycles_to_reset\n', str(config.cycles_to_reset)+'\n']
         open(dest_path, 'w').writelines((self.plik))
         
     def saveDefaults(self):

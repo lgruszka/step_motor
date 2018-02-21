@@ -38,7 +38,7 @@ class CLoadProgramWindow(QtGui.QDialog):
         #ustawianie wczytanych wartosci parametrow
         print source_path
         self.plik = open(source_path).readlines()
-        config.current_program_name = self.plik[0]
+        config.current_program_name = self.plik[0][:-1]
         config.rotates_per_cycle = float(self.plik[2])
         config.velocity = float(self.plik[4])
         config.cycles_to_reset = float(self.plik[6])

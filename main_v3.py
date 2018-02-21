@@ -6,13 +6,13 @@ from __builtin__ import True
 import sys
 import os
 import config
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import time
 import datetime
 #import threading
 
-#GPIO.setmode(GPIO.BCM)
-#GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 
 #21 to wyjscie do sterownika silnika
 #19 wystawiam jako wyjscie na brzeczek
@@ -32,16 +32,16 @@ import datetime
 #  G  21
 
 #ustaw 21 jako wyjscie na sterownik silnika
-#GPIO.setup(21,GPIO.OUT, initial=GPIO.LOW)
-##ustaw 26 jako wyjscie w stanie zawsze wysokim
-#GPIO.setup(26,GPIO.OUT, initial=GPIO.HIGH)
-##ustaw 19 jako wyjscie na brzeczek
-#GPIO.setup(19,GPIO.OUT, initial=GPIO.HIGH)
+GPIO.setup(21,GPIO.OUT, initial=GPIO.LOW)
+#ustaw 26 jako wyjscie w stanie zawsze wysokim
+GPIO.setup(26,GPIO.OUT, initial=GPIO.HIGH)
+#ustaw 19 jako wyjscie na brzeczek
+GPIO.setup(19,GPIO.OUT, initial=GPIO.HIGH)
 
-##ustaw 20 jako wejscie i sciagnij napiecie w gore
-#GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_UP)
-##ustaw 12 jako wejscie i sciagnij napiecie w gore
-#GPIO.setup(12,GPIO.IN, pull_up_down=GPIO.PUD_UP)
+#ustaw 20 jako wejscie i sciagnij napiecie w gore
+GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_UP)
+#ustaw 12 jako wejscie i sciagnij napiecie w gore
+GPIO.setup(12,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #ustaw 16 jako wejscie i sciagnij napiecie w gore
 # GPIO.setup(16,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
