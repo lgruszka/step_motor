@@ -225,7 +225,7 @@ class CMain(QtGui.QMainWindow):
                         self.ui.startBtn.setText("start")
         
         def paramBtn_Clicked(self):
-                config.param_window.showFullScreen()
+                config.param_window.showFullScreen() if config.full_screen is True else config.param_window.show()
         
         def blockScreenBtn_Clicked(self):
                 QtGui.QMessageBox.information(self,'Info',"Blokada ekranu",QtGui.QMessageBox.Cancel)
@@ -254,7 +254,6 @@ if __name__=='__main__':
         config.new_program_window = CNewProgramWindow()
         config.load_program_window = CLoadProgramWindow()
         
-         
         main_window.showFullScreen() if config.full_screen is True else main_window.show()
         print "1"
         sys.exit(app.exec_())
