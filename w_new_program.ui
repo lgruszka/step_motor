@@ -42,6 +42,10 @@
      <pointsize>14</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background: green;
+color: white</string>
+   </property>
    <property name="text">
     <string>Potwierdź</string>
    </property>
@@ -59,6 +63,10 @@
     <font>
      <pointsize>14</pointsize>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background: red;
+color: white</string>
    </property>
    <property name="text">
     <string>Powrót</string>

@@ -37,12 +37,16 @@ class Ui_NewProgramWindow(object):
         font = QtGui.QFont()
         font.setPointSize(14)
         self.pushButton_confirm.setFont(font)
+        self.pushButton_confirm.setStyleSheet(_fromUtf8("background: green;\n"
+"color: white"))
         self.pushButton_confirm.setObjectName(_fromUtf8("pushButton_confirm"))
         self.pushButton_return = QtGui.QPushButton(NewProgramWindow)
         self.pushButton_return.setGeometry(QtCore.QRect(350, 20, 111, 91))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.pushButton_return.setFont(font)
+        self.pushButton_return.setStyleSheet(_fromUtf8("background: red;\n"
+"color: white"))
         self.pushButton_return.setObjectName(_fromUtf8("pushButton_return"))
 
         self.retranslateUi(NewProgramWindow)
