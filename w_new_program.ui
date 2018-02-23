@@ -16,9 +16,9 @@
   <widget class="QLineEdit" name="lineEdit_prgName">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>140</x>
      <y>30</y>
-     <width>241</width>
+     <width>201</width>
      <height>61</height>
     </rect>
    </property>
@@ -31,9 +31,9 @@
   <widget class="QPushButton" name="pushButton_confirm">
    <property name="geometry">
     <rect>
-     <x>148</x>
-     <y>210</y>
-     <width>151</width>
+     <x>20</x>
+     <y>20</y>
+     <width>111</width>
      <height>91</height>
     </rect>
    </property>
@@ -49,9 +49,9 @@
   <widget class="QPushButton" name="pushButton_return">
    <property name="geometry">
     <rect>
-     <x>300</x>
-     <y>210</y>
-     <width>151</width>
+     <x>350</x>
+     <y>20</y>
+     <width>111</width>
      <height>91</height>
     </rect>
    </property>

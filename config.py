@@ -3,7 +3,7 @@
 
 pathname = ''
 current_program_name = None
-
+full_screen = True
 #parameters
 counter = 0
 counter2 = 0
