@@ -119,6 +119,7 @@ class CMain(QtGui.QMainWindow):
                 steps = 200.*config.microstep*turns
                 return steps
 
+        # oblicza czas postoju
         def vel_to_pause(self, vel):
                 pause = 1.0/(200.*config.microstep*vel)/2.0
                 return pause
@@ -137,6 +138,7 @@ class CMain(QtGui.QMainWindow):
                         if config.cycles >= config.cycles_to_reset:
                                GPIO.output(19,GPIO.LOW)
                         time.sleep(1.5)
+                        config.enable = True
                         self.ui.lcdClock.display(time.strftime("%H"+":"+"%M"+":"+"%S"))
 
         def reset_ext_btn(self, channel): 
@@ -164,6 +166,7 @@ class CMain(QtGui.QMainWindow):
                                 print "fake motor sygnal"
                                 return                
                 if config.enable is True:
+                        config.enable = False
                         #GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
                         #time.sleep(0.5)                        
                         pause = self.vel_to_pause(float(config.velocity))
@@ -180,7 +183,8 @@ class CMain(QtGui.QMainWindow):
                             time.sleep(pause)
                         print "koniec obrotu"
                         if move_time <2.2:
-	                        time.sleep(2.2-move_time)
+                            pass
+	                        #time.sleep(2.2-move_time)
                         else:
 	                        pass 
                 else:
@@ -212,7 +216,7 @@ class CMain(QtGui.QMainWindow):
                                GPIO.output(19,GPIO.HIGH)
                 else:
                         print "odcisnalem"
-                        enable = False
+                        config.enable = False
 
                         GPIO.output(19,GPIO.HIGH)
                         GPIO.output(21,GPIO.LOW)
