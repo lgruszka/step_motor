@@ -16,9 +16,9 @@ class Open(object):
         """
         screenH = QtGui.QApplication.desktop().size().height()
         screenW = QtGui.QApplication.desktop().size().width()
-        heigh = int(screenH*0.3) #wysokosc 1/4 ekranu
-        width = 3*heigh #szerokosc proporcjonalnie 3x wysokosc
-        y = int(screenH*0.7) #wyswietlana na samym dole ekranu
+        heigh = int(screenH*0.5) #wysokosc 1/2 ekranu
+        width = screenW # 3*heigh #szerokosc proporcjonalnie 3x wysokosc
+        y = int(screenH*0.5) #wyswietlana na samym dole ekranu
         x = screenW/2 - width/2 #wyswietlana w polowie szerokosci ekranu
         
         self.klawiatura = subprocess.Popen(["onboard","-x "+str(x),"-y "+str(y),"-s "+str(width)+"x"+str(heigh),"-a"])
