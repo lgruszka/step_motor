@@ -7,7 +7,7 @@ import os
 import time
 import subprocess
 from PyQt4 import QtCore,QtGui,QtDBus
-
+import time
 
 class Open(object):
     def __init__(self):
@@ -22,6 +22,7 @@ class Open(object):
         x = screenW/2 - width/2 #wyswietlana w polowie szerokosci ekranu
         
         self.klawiatura = subprocess.Popen(["onboard","-x "+str(x),"-y "+str(y),"-s "+str(width)+"x"+str(heigh),"-a"])
+        time.sleep(1)
         Hide()
     def Close(self):
         u"""
