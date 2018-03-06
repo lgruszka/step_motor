@@ -106,7 +106,7 @@ class CParamWindow(QtGui.QDialog):
             config.load_program_window.refreshProgramCmbBox()
             
         def savePrgBtn_Clicked(self):
-            config.new_program_window.showFullScreen() if config.full_screen is True else config.new_program_window.show()
+            config.new_program_window.show() if config.full_screen is True else config.new_program_window.show()
             config.new_program_window.ui.lineEdit_prgName.setText(config.current_program_name)
 
         def returnBtn_Clicked(self):
