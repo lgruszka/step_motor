@@ -124,6 +124,8 @@ class CMain(QtGui.QMainWindow):
                 pause = 1.0/(200.*config.microstep*vel)/2.0
                 return pause
 
+        # jak bedzie problem to mozna zrobic parametr cycle_enable, ustawiany na true 
+        #  po zakonczeniu krecenia silnikiem i na false po sygnale z czuknika konca cyklu
         def cycle_done(self, channel): 
                         count = 0
                         while(count<10):

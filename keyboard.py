@@ -21,7 +21,7 @@ class Open(object):
         y = int(screenH*0.7) #wyswietlana na samym dole ekranu
         x = screenW/2 - width/2 #wyswietlana w polowie szerokosci ekranu
         
-        self.klawiatura = subprocess.Popen(["onboard","--layout=My","--theme=My","-x "+str(x),"-y "+str(y),"-s "+str(width)+"x"+str(heigh),"-a"])
+        self.klawiatura = subprocess.Popen(["onboard","-x "+str(x),"-y "+str(y),"-s "+str(width)+"x"+str(heigh),"-a"])
         Hide()
     def Close(self):
         u"""
